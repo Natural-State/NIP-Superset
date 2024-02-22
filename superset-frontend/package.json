@@ -82,6 +82,7 @@
     "last 3 edge versions"
   ],
   "dependencies": {
+    "@ant-design/charts": "^2.0.3",
     "@ant-design/icons": "^5.2.6",
     "@emotion/babel-preset-css-prop": "^11.11.0",
     "@emotion/cache": "^11.4.0",
@@ -202,6 +203,7 @@
     "rison": "^0.1.1",
     "scroll-into-view-if-needed": "^2.2.28",
     "shortid": "^2.2.16",
+    "superset-plugin-chart-liquid": "^0.1.5",
     "tinycolor2": "^1.4.2",
     "urijs": "^1.19.8",
     "use-event-callback": "^0.1.0",
