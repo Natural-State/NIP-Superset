@@ -38,6 +38,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Create namespace and secret
+      - name: Build & Push Image
         run: |
-          ./docker_build.sh -r "$DOCKERHUB_REPOSITORY" -u "$DOCKERHUB_USER" -t "$DOCKERHUB_TOKEN" -T "$TAG" -p "$DOCKERFILE_PATH"
+          .github/workflows/docker_build.sh -r "$DOCKERHUB_REPOSITORY" -u "$DOCKERHUB_USER" -t "$DOCKERHUB_TOKEN" -T "$TAG" -p "$DOCKERFILE_PATH"
