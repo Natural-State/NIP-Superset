@@ -2,13 +2,6 @@ name: "Superset: Deploy"
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        type: choice
-        options:
-          - dev
-        description: "The branch to build"
-        required: true
-        default: dev
       environment:
         description: "The environment to deploy to"
         type: environment
