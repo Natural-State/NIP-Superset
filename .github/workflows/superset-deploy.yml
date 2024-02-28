@@ -10,7 +10,7 @@ on:
 
 defaults:
   run:
-    working-directory: "app/scripts"
+    working-directory: ".github/workflows"
 
 env:
   TLS_CRT: "${{secrets.TLS_CRT}}"
