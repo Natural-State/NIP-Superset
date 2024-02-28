@@ -3,14 +3,14 @@ extraEnv:
   GUNICORN_TIMEOUT: 300
   APP_ICON: https://i.ibb.co/fChLX4G/Natural-State-Logo-Icon.png
   APP_NAME: "Natural Impact Portal"
-  BASEURL: PLACEHODLER_BASEURL
+  # BASEURL: PLACEHODLER_BASEURL
 
 # -- Extra environment variables to pass as secrets
-extraSecretEnv:
-  MAPBOX_API_KEY: PLACEHOLDER_MAPBOX_API_KEY
-  SMTP_USER: PLACEHOLDER
-  SMTP_PASSWORD: PLACEHOLDER
-  SMTP_MAIL_FROM: PLACEHOLDER
+extraSecretEnv: {}
+  # MAPBOX_API_KEY: PLACEHOLDER_MAPBOX_API_KEY
+  # SMTP_USER: PLACEHOLDER
+  # SMTP_PASSWORD: PLACEHOLDER
+  # SMTP_MAIL_FROM: PLACEHOLDER
   # --set
 
 configOverrides:
@@ -205,10 +205,10 @@ supersetNode:
     # redis_password: superset
     redis_port: "6379"
     # You need to change below configuration incase bringing own PostgresSQL instance and also set postgresql.enabled:false
-    db_host: PLACEHOLDER_STAGING_HOST
+    # db_host: PLACEHOLDER_STAGING_HOST
     db_port: "5432"
-    db_user: PLACEHOLDER_STAGING_USERNAME
-    db_pass: PLACEHOLDER_STAGING_PASSWORD
+    # db_user: PLACEHOLDER_STAGING_USERNAME
+    # db_pass: PLACEHOLDER_STAGING_PASSWORD
     db_name: superset
 
 

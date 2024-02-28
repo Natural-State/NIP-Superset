@@ -26,19 +26,21 @@ env:
   KUBERNETES_CLUSTER_NAME: "${{secrets.KUBERNETES_CLUSTER_NAME}}"
   POSTGRES_KEYVAULT: "${{secrets.POSTGRES_KEYVAULT}}"
   app_name: "superset"
-  namespace: "superset-namespace"
+  namespace: "superset-stg-namespace"
   helm_release: "superset-release"
   k8s_secret_name: "ingress-tls"
-  domain_name: "portal.naturalstate.tech"
+  domain_name: "${{secrets.DOMAIN_NAME}}"
   MAPBOX_API_KEY: "${{secrets.MAPBOX_API_KEY}}"
+  SMTP_USER: "${{secrets.SMTP_USER}}"
+  SMTP_PASSWORD: "${{secrets.SMTP_PASSWORD}}"
+  SMTP_MAIL_FROM: "${{secrets.SMTP_MAIL_FROM}}"
+
 
 jobs:
   deployment:
     environment:
       name: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
 
     steps:
       - uses: actions/checkout@v3
@@ -53,8 +55,6 @@ jobs:
           echo "DB_HOST=$(./keyvault.sh host $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
           echo "DB_USERNAME=$(./keyvault.sh username $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
           echo "DB_PASSWORD=$(./keyvault.sh password $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
-          # extract dbname from url 
-          echo "DB_NAME=$(echo $DB_HOST | sed 's/https:\/\/\([^\.]*\)\..*/\1/')" >> $GITHUB_ENV
 
       - name: Azure Kubernetes set context
         uses: Azure/aks-set-context@v3
@@ -69,5 +69,5 @@ jobs:
       - name: Update helm chart and values
         run: |
           source ./deployment.sh
-          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{env.domain_name}} ${{env.k8s_secret_name}} ${{env.DB_HOST}} ${{env.DB_USERNAME}} ${{env.DB_PASSWORD}} ${{env.MAPBOX_API_KEY}}
+          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{env.domain_name}} ${{env.k8s_secret_name}} ${{env.DB_HOST}} ${{env.DB_USERNAME}} ${{env.DB_PASSWORD}} ${{env.MAPBOX_API_KEY}} ${{env.SMTP_USER}} ${{env.SMTP_PASSWORD}} ${{env.SMTP_MAIL_FROM}}
 

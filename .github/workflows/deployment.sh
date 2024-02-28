@@ -44,7 +44,8 @@ deploy_superset() {
     --set "supersetNode.connections.db_pass=$DB_PASSWORD" \
     --set "ingress.tls[0].secretName=$TLS_SECRET_NAME" \
     --set "ingress.tls[0].hosts[0]=\"$DOMAIN_NAME\"" \
-    --set "ingress.hosts[0]=\"$DOMAIN_NAME\""
+    --set "ingress.hosts[0]=\"$DOMAIN_NAME\"" \
+    --debug
 }
 
 
