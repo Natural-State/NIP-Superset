@@ -19,7 +19,7 @@ env:
   KUBERNETES_CLUSTER_NAME: "${{secrets.KUBERNETES_CLUSTER_NAME}}"
   POSTGRES_KEYVAULT: "${{secrets.POSTGRES_KEYVAULT}}"
   app_name: "superset"
-  namespace: "superset-stg-namespace"
+  namespace: "superset-namespace"
   helm_release: "superset-release"
   k8s_secret_name: "ingress-tls"
   domain_name: "${{secrets.DOMAIN_NAME}}"
