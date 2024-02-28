@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+.venv
 *.bak
 *.db
 *.pyc
@@ -112,3 +113,5 @@ messages.mo
 docker/requirements-local.txt
 
 cache/
+.github/workflows/tls.key
+.github/workflows/tls.crt
