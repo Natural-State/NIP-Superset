@@ -115,3 +115,6 @@ docker/requirements-local.txt
 cache/
 .github/workflows/tls.key
 .github/workflows/tls.crt
+
+# Ignore the dev folder for local development testing (Natural State)
+dev/
