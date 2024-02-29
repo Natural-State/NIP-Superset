@@ -20,6 +20,8 @@
 *.sqllite
 *.swp
 __pycache__
+*.key
+*.crt
 
 .local
 .cache
@@ -113,3 +115,5 @@ docker/requirements-local.txt
 cache/
 
 helm/superset/values.override.yaml
+
+dev/
