@@ -47,16 +47,3 @@ deploy_superset() {
     --set "ingress.hosts[0]=\"$DOMAIN_NAME\"" \
     --debug
 }
-
-
-# helm upgrade \
-#     -n "$NAMESPACE" \
-#     "$HELM_RELEASE" \
-#     --install \
-#     "../../helm/superset" \
-#     -f "../../helm/superset/values.yaml" \
-#     -f "../../helm/superset/values.override.yaml" \
-#     --set "ingress.hosts[0]=$DOMAIN_NAME" \
-#     --set "ingress.tls[0].secretName=$TLS_SECRET_NAME" \
-#     --set "ingress.tls[0].hosts[0]=$DOMAIN_NAME" \
-#     --timeout 15m
