@@ -45,6 +45,10 @@ jobs:
 
       - name: Get keyvault secrets
         run: |
+          echo "::add-mask::$DB_HOST"
+          echo "::add-mask::$DB_USERNAME"
+          echo "::add-mask::$DB_PASSWORD"
+          echo "::add-mask::$SECRET_KEY"
           echo "DB_HOST=$(./keyvault.sh host $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
           echo "DB_USERNAME=$(./keyvault.sh username $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
           echo "DB_PASSWORD=$(./keyvault.sh password $POSTGRES_KEYVAULT)" >> $GITHUB_ENV

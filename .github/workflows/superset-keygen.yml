@@ -32,6 +32,7 @@ jobs:
 
       - name: Generate secret key
         run: |
+          echo "::add-mask::$SECRET_KEY"
           echo "SECRET_KEY=$(openssl rand -base64 42)" >> $GITHUB_ENV
           
       - name: Push key to keyvault
