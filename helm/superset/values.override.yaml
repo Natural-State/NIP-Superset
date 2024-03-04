@@ -36,7 +36,7 @@ extraSecretEnv: {}
 
 configOverrides:
   secret: |
-      SECRET_KEY = 'YOUR_OWN_RANDOM_GENERATED_SECRET_KEY'
+      SECRET_KEY = os.getenv("SECRET_KEY")
   csp: |
     # Content Security Policy
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP

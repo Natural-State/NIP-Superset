@@ -18,6 +18,7 @@ deploy_superset() {
     SMTP_USER="$10"
     SMTP_PASSWORD="$11"
     SMTP_MAIL_FROM="$12"
+    SECRET_KEY="$13"
     
     echo "Namespace: $namespace"
     echo "Helm release: $helm_release"
@@ -39,6 +40,7 @@ deploy_superset() {
     --set "extraSecretEnv.SMTP_USER=$SMTP_USER" \
     --set "extraSecretEnv.SMTP_PASSWORD=$SMTP_PASSWORD" \
     --set "extraSecretEnv.SMTP_MAIL_FROM=$SMTP_MAIL_FROM" \
+    --set "extraSecretEnv.SECRET_KEY=$SECRET_KEY" \
     --set "supersetNode.connections.db_host=$DB_HOST" \
     --set "supersetNode.connections.db_user=$DB_USERNAME" \
     --set "supersetNode.connections.db_pass=$DB_PASSWORD" \

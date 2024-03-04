@@ -36,6 +36,7 @@ az login --service-principal -u $ARM_CLIENT_ID -p $ARM_CLIENT_SECRET --tenant $A
 DB_HOST=$(./keyvault.sh host $POSTGRES_KEYVAULT)
 DB_USERNAME=$(./keyvault.sh username $POSTGRES_KEYVAULT)
 DB_PASSWORD=$(./keyvault.sh password $POSTGRES_KEYVAULT)
+SECRET_KEY=$(./keyvault.sh secretKey $POSTGRES_KEYVAULT)
 
 source ./context.sh -g $KUBERNETES_RESOURCE_GROUP -n $KUBERNETES_CLUSTER_NAME
 
@@ -49,4 +50,4 @@ source ./secrets.sh -n $namespace -s $k8s_secret_name --tls-crt $TLS_CRT --tls-k
 
 echo "Namespace: $namespace"
 echo "Helm release: $helm_release"
-deploy_superset $namespace $helm_release $DOMAIN_NAME $k8s_secret_name $DB_HOST $DB_USERNAME $DB_PASSWORD $MAPBOX_API_KEY $SMTP_USER $SMTP_PASSWORD $SMTP_MAIL_FROM
+deploy_superset $namespace $helm_release $DOMAIN_NAME $k8s_secret_name $DB_HOST $DB_USERNAME $DB_PASSWORD $MAPBOX_API_KEY $SMTP_USER $SMTP_PASSWORD $SMTP_MAIL_FROM $SECRET_KEY

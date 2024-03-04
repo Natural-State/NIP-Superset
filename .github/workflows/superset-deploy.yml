@@ -48,6 +48,7 @@ jobs:
           echo "DB_HOST=$(./keyvault.sh host $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
           echo "DB_USERNAME=$(./keyvault.sh username $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
           echo "DB_PASSWORD=$(./keyvault.sh password $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
+          echo "SECRET_KEY=$(./keyvault.sh secretKey $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
 
       - name: Azure Kubernetes set context
         uses: Azure/aks-set-context@v3
@@ -62,5 +63,5 @@ jobs:
       - name: Update helm chart and values
         run: |
           source ./deployment.sh
-          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{env.domain_name}} ${{env.k8s_secret_name}} ${{env.DB_HOST}} ${{env.DB_USERNAME}} ${{env.DB_PASSWORD}} ${{env.MAPBOX_API_KEY}} ${{env.SMTP_USER}} ${{env.SMTP_PASSWORD}} ${{env.SMTP_MAIL_FROM}}
+          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{env.domain_name}} ${{env.k8s_secret_name}} ${{env.DB_HOST}} ${{env.DB_USERNAME}} ${{env.DB_PASSWORD}} ${{env.MAPBOX_API_KEY}} ${{env.SMTP_USER}} ${{env.SMTP_PASSWORD}} ${{env.SMTP_MAIL_FROM}} ${{env.SECRET_KEY}}
 
