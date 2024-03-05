@@ -22,11 +22,6 @@ env:
   namespace: "superset-namespace"
   helm_release: "superset-release"
   k8s_secret_name: "ingress-tls"
-  domain_name: "${{secrets.DOMAIN_NAME}}"
-  MAPBOX_API_KEY: "${{secrets.MAPBOX_API_KEY}}"
-  SMTP_USER: "${{secrets.SMTP_USER}}"
-  SMTP_PASSWORD: "${{secrets.SMTP_PASSWORD}}"
-  SMTP_MAIL_FROM: "${{secrets.SMTP_MAIL_FROM}}"
 
 
 jobs:
@@ -43,16 +38,23 @@ jobs:
         with:
           creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
 
+      # mask the ouptuts
       - name: Get keyvault secrets
+        id: kvsecrets
         run: |
-          echo "DB_HOST=$(./keyvault.sh host $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
-          echo "DB_USERNAME=$(./keyvault.sh username $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
-          echo "DB_PASSWORD=$(./keyvault.sh password $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
-          echo "SECRET_KEY=$(./keyvault.sh secretKey $POSTGRES_KEYVAULT)" >> $GITHUB_ENV
+          echo "::add-mask::$POSTGRES_KEYVAULT"
+          DB_HOST=$(./keyvault.sh host $POSTGRES_KEYVAULT)
+          DB_USERNAME=$(./keyvault.sh username $POSTGRES_KEYVAULT)
+          DB_PASSWORD=$(./keyvault.sh password $POSTGRES_KEYVAULT)
+          SECRET_KEY=$(./keyvault.sh secretKey $POSTGRES_KEYVAULT)
           echo "::add-mask::$DB_HOST"
           echo "::add-mask::$DB_USERNAME"
           echo "::add-mask::$DB_PASSWORD"
           echo "::add-mask::$SECRET_KEY"
+          echo "DB_HOST=$DB_HOST" >> "$GITHUB_OUTPUT"
+          echo "DB_USERNAME=$DB_USERNAME" >> "$GITHUB_OUTPUT"
+          echo "DB_PASSWORD=$DB_PASSWORD" >> "$GITHUB_OUTPUT"
+          echo "SECRET_KEY=$SECRET_KEY" >> "$GITHUB_OUTPUT"
 
       - name: Azure Kubernetes set context
         uses: Azure/aks-set-context@v3
@@ -67,5 +69,5 @@ jobs:
       - name: Update helm chart and values
         run: |
           source ./deployment.sh
-          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{env.domain_name}} ${{env.k8s_secret_name}} ${{env.DB_HOST}} ${{env.DB_USERNAME}} ${{env.DB_PASSWORD}} ${{env.MAPBOX_API_KEY}} ${{env.SMTP_USER}} ${{env.SMTP_PASSWORD}} ${{env.SMTP_MAIL_FROM}} ${{env.SECRET_KEY}}
+          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{secrets.DOMAIN_NAME}} ${{env.k8s_secret_name}} ${{ steps.kvsecrets.outputs.DB_HOST }} ${{steps.kvsecrets.outputs.DB_USERNAME}} ${{steps.kvsecrets.outputs.DB_PASSWORD}} ${{secrets.MAPBOX_API_KEY}} ${{secrets.SMTP_USER}} ${{secrets.SMTP_PASSWORD}} ${{secrets.SMTP_MAIL_FROM}} ${{steps.kvsecrets.outputs.SECRET_KEY}}
 
