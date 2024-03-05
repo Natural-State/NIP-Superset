@@ -39,4 +39,4 @@ jobs:
           
       - name: Push key to keyvault
         run: |
-          az keyvault secret set --name secretKey --vault-name $POSTGRES_KEYVAULT --value ${{ steps.keygen.outputs.SECRET_KEY }}" -o none
+          az keyvault secret set --name secretKey --vault-name $POSTGRES_KEYVAULT --value ${{ steps.keygen.outputs.SECRET_KEY }} -o none
