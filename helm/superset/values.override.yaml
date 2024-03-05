@@ -36,6 +36,7 @@ extraSecretEnv: {}
 
 configOverrides:
   secret: |
+      PREVIOUS_SECRET_KEY = "YOUR_OWN_RANDOM_GENERATED_SECRET_KEY"
       SECRET_KEY = os.getenv("SECRET_KEY")
   csp: |
     # Content Security Policy
