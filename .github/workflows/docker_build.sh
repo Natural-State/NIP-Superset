@@ -68,6 +68,7 @@ else
     exit 1
 fi
 
+echo "Build target is: $DOCKER_BUILD_TARGET"
 docker build \
   -t "${DOCKERHUB_REPOSITORY}:${TAG}" \
   --target $DOCKER_BUILD_TARGET \
