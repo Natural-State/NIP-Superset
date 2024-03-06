@@ -76,6 +76,33 @@ RUN mkdir -p ${PYTHONPATH} superset/static superset-frontend apache_superset.egg
     && chown -R superset:superset ./* \
     && rm -rf /var/lib/apt/lists/*
 
+#########################################
+# copy dev requirements firefox & gecko #
+#########################################
+ARG GECKODRIVER_VERSION=v0.33.0 \
+    FIREFOX_VERSION=117.0.1
+
+USER root
+
+RUN apt-get update -qq \
+    && apt-get install -yqq --no-install-recommends \
+        libnss3 \
+        libdbus-glib-1-2 \
+        libgtk-3-0 \
+        libx11-xcb1 \
+        libasound2 \
+        libxtst6 \
+        wget \
+    # Install GeckoDriver WebDriver
+    && wget -q https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O - | tar xfz - -C /usr/local/bin \
+    # Install Firefox
+    && wget -q https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O - | tar xfj - -C /opt \
+    && ln -s /opt/firefox/firefox /usr/local/bin/firefox \
+    && apt-get autoremove -yqq --purge wget && rm -rf /var/[log,tmp]/* /tmp/* /var/lib/apt/lists/*
+#########################################
+# copy dev requirements firefox & gecko #
+#########################################
+
 COPY --chown=superset:superset setup.py MANIFEST.in README.md ./
 # setup.py uses the version information in package.json
 COPY --chown=superset:superset superset-frontend/package.json superset-frontend/
