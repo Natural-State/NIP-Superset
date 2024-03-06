@@ -58,8 +58,19 @@ fi
 echo "Docker file path is ${DOCKERFILE_PATH}"
 cd $DOCKERFILE_PATH
 
+# Condition pour déterminer quelle image construire en fonction du tag
+if [ "$TAG" == "latest" ]; then
+    DOCKER_BUILD_TARGET="lean"
+elif [ "$TAG" == "dev" ]; then
+    DOCKER_BUILD_TARGET="dev"
+else
+    echo "Error: TAG must be either 'latest' or 'dev'."
+    exit 1
+fi
+
 docker build \
   -t "${DOCKERHUB_REPOSITORY}:${TAG}" \
+  --target $DOCKER_BUILD_TARGET \
   .
 
 if [[ -z "${DOCKERHUB_TOKEN}" ]]; then

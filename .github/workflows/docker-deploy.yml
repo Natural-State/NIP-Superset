@@ -16,7 +16,10 @@ on:
         required: true
       docker_tag:
         description: "Image TAG"
-        type: text
+        type: choice
+        options:
+          - latest
+          - dev
         default: latest
         required: true
 
