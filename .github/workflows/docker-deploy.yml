@@ -27,7 +27,6 @@ env:
   DOCKERHUB_REPOSITORY: "${{vars.DOCKERHUB_REPOSITORY}}"
   DOCKERFILE_PATH: "."
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  TAG: ${{ github.event.inputs.docker_tag == '' && env.BRANCH_NAME || env.BRANCH_NAME-github.event.inputs.docker_tag }}
   DOCKER_BUILD_TARGET: "${{ github.event.inputs.docker_target }}"
 
 jobs:
@@ -40,10 +39,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
       - name: Build & Push Image
         run: |
-          echo env.BRANCH_NAME
-          echo env.TAG
+          TAG=${{ github.event.inputs.docker_tag == '' && env.BRANCH_NAME || env.BRANCH_NAME-github.event.inputs.docker_tag }}
+          echo ${{env.BRANCH_NAME}}
+          echo $TAG
 
           # .github/workflows/docker_build.sh -r "$DOCKERHUB_REPOSITORY" -u "$DOCKERHUB_USER" -t "$DOCKERHUB_TOKEN" -T "$TAG" -p "$DOCKERFILE_PATH" -D "$DOCKER_BUILD_TARGET"
