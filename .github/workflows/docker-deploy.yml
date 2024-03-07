@@ -1,0 +1,45 @@
+name: "Docker Image"
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "The environment to deploy to"
+        type: environment
+        default: stg
+        required: true
+      docker_tag:
+        description: "Image TAG (branch name will be included automatically)"
+        type: text
+      docker_target:
+        description: "Target Image"
+        type: choice
+        options:
+          - lean
+          - dev
+          - ci
+        default: latest
+        required: true
+
+env:
+  DOCKERHUB_TOKEN: "${{secrets.DOCKERHUB_TOKEN}}"
+  DOCKERHUB_USER: "${{secrets.DOCKERHUB_USER}}"
+  DOCKERHUB_REPOSITORY: "${{vars.DOCKERHUB_REPOSITORY}}"
+  DOCKERFILE_PATH: "."
+  TAG: "${{ github.event.inputs.docker_tag }}"
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  DOCKER_BUILD_TARGET: "${{ github.head_ref || github.ref_name }}-${{ github.event.inputs.docker_target }}"
+
+jobs:
+  deployment:
+    environment:
+      name: ${{ github.event.inputs.environment }}
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build & Push Image
+        run: |
+          .github/workflows/docker_build.sh -r "$DOCKERHUB_REPOSITORY" -u "$DOCKERHUB_USER" -t "$DOCKERHUB_TOKEN" -T "$TAG" -p "$DOCKERFILE_PATH" -d "$DOCKER_BUILD_TARGET"
