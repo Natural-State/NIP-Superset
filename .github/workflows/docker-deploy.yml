@@ -25,9 +25,9 @@ env:
   DOCKERHUB_USER: "${{secrets.DOCKERHUB_USER}}"
   DOCKERHUB_REPOSITORY: "${{vars.DOCKERHUB_REPOSITORY}}"
   DOCKERFILE_PATH: "."
-  TAG: "${{ github.event.inputs.docker_tag }}"
+  TAG: "${{ github.head_ref || github.ref_name }}-${{ github.event.inputs.docker_tag }}"
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-  DOCKER_BUILD_TARGET: "${{ github.head_ref || github.ref_name }}-${{ github.event.inputs.docker_target }}"
+  DOCKER_BUILD_TARGET: "${{ github.event.inputs.docker_target }}"
 
 jobs:
   deployment:
