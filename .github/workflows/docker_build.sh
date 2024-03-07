@@ -45,7 +45,7 @@ while [[ $# -gt 0 ]]; do
         TAG="$2"
         shift 2
         ;;
-    -T)
+    -D)
         DOCKER_BUILD_TARGET="$2"
         shift 2
         ;;
