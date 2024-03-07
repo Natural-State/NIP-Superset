@@ -10,6 +10,7 @@ on:
       docker_tag:
         description: "Image TAG (branch name will be included automatically)"
         type: text
+        required: false
       docker_target:
         description: "Target Image"
         type: choice
@@ -25,8 +26,8 @@ env:
   DOCKERHUB_USER: "${{secrets.DOCKERHUB_USER}}"
   DOCKERHUB_REPOSITORY: "${{vars.DOCKERHUB_REPOSITORY}}"
   DOCKERFILE_PATH: "."
-  TAG: "${{ github.head_ref || github.ref_name }}-${{ github.event.inputs.docker_tag }}"
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+  TAG: ${{ github.event.inputs.docker_tag == '' && env.BRANCH_NAME || env.BRANCH_NAME-github.event.inputs.docker_tag }}
   DOCKER_BUILD_TARGET: "${{ github.event.inputs.docker_target }}"
 
 jobs:
@@ -42,5 +43,7 @@ jobs:
 
       - name: Build & Push Image
         run: |
-          chmod +x .github/workflows/docker_build.sh
-          .github/workflows/docker_build.sh -r "$DOCKERHUB_REPOSITORY" -u "$DOCKERHUB_USER" -t "$DOCKERHUB_TOKEN" -T "$TAG" -p "$DOCKERFILE_PATH" -D "$DOCKER_BUILD_TARGET"
+          echo env.BRANCH_NAME
+          echo env.TAG
+
+          # .github/workflows/docker_build.sh -r "$DOCKERHUB_REPOSITORY" -u "$DOCKERHUB_USER" -t "$DOCKERHUB_TOKEN" -T "$TAG" -p "$DOCKERFILE_PATH" -D "$DOCKER_BUILD_TARGET"
