@@ -42,4 +42,4 @@ jobs:
 
       - name: Build & Push Image
         run: |
-          .github/workflows/docker_build.sh -r "$DOCKERHUB_REPOSITORY" -u "$DOCKERHUB_USER" -t "$DOCKERHUB_TOKEN" -T "$TAG" -p "$DOCKERFILE_PATH" -d "$DOCKER_BUILD_TARGET"
+          .github/workflows/docker_build.sh -r "$DOCKERHUB_REPOSITORY" -u "$DOCKERHUB_USER" -t "$DOCKERHUB_TOKEN" -T "$TAG" -p "$DOCKERFILE_PATH" -D "$DOCKER_BUILD_TARGET"
