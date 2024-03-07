@@ -28,6 +28,7 @@ env:
   DOCKERFILE_PATH: "."
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   DOCKER_BUILD_TARGET: "${{ github.event.inputs.docker_target }}"
+  TAG: "${{ github.event.inputs.docker_tag }}"
 
 jobs:
   deployment:
@@ -41,7 +42,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build & Push Image
         run: |
-          TAG=${{ github.event.inputs.docker_tag == '' && env.BRANCH_NAME || env.BRANCH_NAME-github.event.inputs.docker_tag }}
+          TAG=$(([ -z ${{env.TAG}} ] && ${{env.BRANCH_NAME}} || ${{env.BRANCH_NAME}}-${{env.TAG}} ))
           echo ${{env.BRANCH_NAME}}
           echo $TAG
 
