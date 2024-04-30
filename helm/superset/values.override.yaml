@@ -9,7 +9,7 @@ supersetNode:
     # redis_password: superset
     redis_port: "6379"
     # You need to change below configuration incase bringing own PostgresSQL instance and also set postgresql.enabled:false
-    db_host: ns-ii-tech-stg-pg-srv.postgres.database.azure.com
+    db_host: ns-ii-tech-dev-pg-srv.postgres.database.azure.com
     db_port: "5432"
     # db_user: 
     db_name: superset
