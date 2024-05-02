@@ -25,6 +25,7 @@ import os
 
 from celery.schedules import crontab
 from flask_caching.backends.filesystemcache import FileSystemCache
+from flask_appbuilder.security.manager import AUTH_OAUTH
 
 logger = logging.getLogger()
 
@@ -40,6 +41,10 @@ EXAMPLES_PASSWORD = os.getenv("EXAMPLES_PASSWORD")
 EXAMPLES_HOST = os.getenv("EXAMPLES_HOST")
 EXAMPLES_PORT = os.getenv("EXAMPLES_PORT")
 EXAMPLES_DB = os.getenv("EXAMPLES_DB")
+
+SP_CLIENT_SECRET = os.getenv("SP_CLIENT_SECRET")
+ARM_TENANT_ID = os.getenv("ARM_TENANT_ID")
+SP_CLIENT_ID = os.getenv("SP_CLIENT_ID")
 
 # The SQLAlchemy connection string.
 SQLALCHEMY_DATABASE_URI = (
@@ -113,3 +118,33 @@ try:
     )
 except ImportError:
     logger.info("Using default Docker config...")
+
+# Set the authentication type to OAuth
+AUTH_TYPE = AUTH_OAUTH
+
+# registration configs
+AUTH_USER_REGISTRATION = True  # allow users who are not already in the FAB DB
+AUTH_USER_REGISTRATION_ROLE = "Public"  # this role will be given in addition to any AUTH_ROLES_MAPPING
+
+# the list of providers which the user can choose from
+OAUTH_PROVIDERS = [
+    {
+        "name": "azure",
+        "icon": "fa-windows",
+        "token_key": "access_token",
+        "remote_app": {
+            "client_id": f"{SP_CLIENT_ID}",
+            "client_secret": f"{SP_CLIENT_SECRET}",
+            "api_base_url": f"https://login.microsoftonline.com/{ARM_TENANT_ID}/oauth2",
+            "client_kwargs": {
+                "scope": "User.read name preferred_username email profile upn",
+                "resource": f"{SP_CLIENT_ID}",
+                # Optionally enforce signature JWT verification
+                "verify_signature": False
+            },
+            "request_token_url": None,
+            "access_token_url": f"https://login.microsoftonline.com/{ARM_TENANT_ID}/oauth2/token",
+            "authorize_url": f"https://login.microsoftonline.com/{ARM_TENANT_ID}/oauth2/authorize",
+        },
+    },
+]
