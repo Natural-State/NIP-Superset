@@ -25,8 +25,8 @@ env:
 
 jobs:
   deployment:
-    environment:
-      name: ${{ github.event.inputs.environment }}
+    # environment:
+    #   name: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
 
     steps:
@@ -45,15 +45,15 @@ jobs:
           DB_HOST=$(./keyvault.sh host $POSTGRES_KEYVAULT)
           DB_USERNAME=$(./keyvault.sh username $POSTGRES_KEYVAULT)
           DB_PASSWORD=$(./keyvault.sh password $POSTGRES_KEYVAULT)
-          SECRET_KEY=$(./keyvault.sh secretKey $POSTGRES_KEYVAULT)
+          # SECRET_KEY=$(./keyvault.sh secretKey $POSTGRES_KEYVAULT)
           echo "::add-mask::$DB_HOST"
           echo "::add-mask::$DB_USERNAME"
           echo "::add-mask::$DB_PASSWORD"
-          echo "::add-mask::$SECRET_KEY"
+          # echo "::add-mask::$SECRET_KEY"
           echo "DB_HOST=$DB_HOST" >> "$GITHUB_OUTPUT"
           echo "DB_USERNAME=$DB_USERNAME" >> "$GITHUB_OUTPUT"
           echo "DB_PASSWORD=$DB_PASSWORD" >> "$GITHUB_OUTPUT"
-          echo "SECRET_KEY=$SECRET_KEY" >> "$GITHUB_OUTPUT"
+          # echo "SECRET_KEY=$SECRET_KEY" >> "$GITHUB_OUTPUT"
 
       - name: Azure Kubernetes set context
         uses: Azure/aks-set-context@v3
@@ -68,5 +68,5 @@ jobs:
       - name: Update helm chart and values
         run: |
           source ./deployment.sh
-          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{secrets.DOMAIN_NAME}} ${{env.k8s_secret_name}} ${{ steps.kvsecrets.outputs.DB_HOST }} ${{steps.kvsecrets.outputs.DB_USERNAME}} ${{steps.kvsecrets.outputs.DB_PASSWORD}} ${{secrets.MAPBOX_API_KEY}} ${{secrets.SMTP_USER}} ${{secrets.SMTP_PASSWORD}} ${{secrets.SMTP_MAIL_FROM}} ${{steps.kvsecrets.outputs.SECRET_KEY}} 
+          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{secrets.DOMAIN_NAME}} ${{env.k8s_secret_name}} ${{ steps.kvsecrets.outputs.DB_HOST }} ${{steps.kvsecrets.outputs.DB_USERNAME}} ${{steps.kvsecrets.outputs.DB_PASSWORD}} ${{secrets.MAPBOX_API_KEY}} ${{secrets.SMTP_USER}} ${{secrets.SMTP_PASSWORD}} ${{secrets.SMTP_MAIL_FROM}} ${{secrets.SECRET_KEY}} ${{secrets.SP_CLIENT_SECRET}} ${{secrets.ARM_TENANT_ID}} ${{secrets.SP_CLIENT_ID}}
 
