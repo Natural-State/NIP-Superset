@@ -25,8 +25,8 @@ env:
 
 jobs:
   deployment:
-    # environment:
-    #   name: ${{ github.event.inputs.environment }}
+    environment:
+      name: ${{ github.event.inputs.environment }}
     runs-on: ubuntu-latest
 
     steps:
