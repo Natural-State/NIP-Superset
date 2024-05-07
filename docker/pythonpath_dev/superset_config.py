@@ -135,7 +135,7 @@ OAUTH_PROVIDERS = [
         "remote_app": {
             "client_id": f"{SP_CLIENT_ID}",
             "client_secret": f"{SP_CLIENT_SECRET}",
-            "api_base_url": "https://graph.microsoftonline.com/",
+            "api_base_url": f"https://login.microsoftonline.com/{ARM_TENANT_ID}/oauth2",
             "client_kwargs": {
                 "scope": f"api://{SP_CLIENT_ID}/impersonate_user",
                 "resource": f"{SP_CLIENT_ID}",
