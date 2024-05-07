@@ -51,6 +51,38 @@ configOverrides:
     FEATURE_FLAGS = {
         "DYNAMIC_PLUGINS": True
     }
+
+    from flask_appbuilder.security.manager import AUTH_OAUTH
+    # Set the authentication type to OAuth
+    AUTH_TYPE = AUTH_OAUTH
+
+    # registration configs
+    AUTH_USER_REGISTRATION = True  # allow users who are not already in the FAB DB
+    AUTH_USER_REGISTRATION_ROLE = "Public"  # this role will be given in addition to any AUTH_ROLES_MAPPING
+
+    # the list of providers which the user can choose from
+    OAUTH_PROVIDERS = [
+        {
+            "name": "azure",
+            "icon": "fa-windows",
+            "token_key": "access_token",
+            "remote_app": {
+                "client_id": f"{SP_CLIENT_ID}",
+                "client_secret": f"{SP_CLIENT_SECRET}",
+                "api_base_url": "https://graph.microsoftonline.com/",
+                "client_kwargs": {
+                    "scope": "api://1dd17660-245d-4ce9-87f6-9d6dde616e99/impersonate_user",
+                    "resource": f"{SP_CLIENT_ID}",
+                    # Optionally enforce signature JWT verification
+                    "verify_signature": False
+                },
+                "request_token_url": None,
+                "access_token_url": f"https://login.microsoftonline.com/{ARM_TENANT_ID}/oauth2/token",
+                "authorize_url": f"https://login.microsoftonline.com/{ARM_TENANT_ID}/oauth2/authorize",
+            },
+        },
+    ]
+
   secret: |
     PREVIOUS_SECRET_KEY = "YOUR_OWN_RANDOM_GENERATED_SECRET_KEY"
     SECRET_KEY = os.getenv("SECRET_KEY")

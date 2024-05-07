@@ -135,9 +135,9 @@ OAUTH_PROVIDERS = [
         "remote_app": {
             "client_id": f"{SP_CLIENT_ID}",
             "client_secret": f"{SP_CLIENT_SECRET}",
-            "api_base_url": f"https://login.microsoftonline.com/{ARM_TENANT_ID}/oauth2",
+            "api_base_url": "https://graph.microsoftonline.com/",
             "client_kwargs": {
-                "scope": "User.read name preferred_username email profile upn",
+                "scope": "api://1dd17660-245d-4ce9-87f6-9d6dde616e99/impersonate_user",
                 "resource": f"{SP_CLIENT_ID}",
                 # Optionally enforce signature JWT verification
                 "verify_signature": False
