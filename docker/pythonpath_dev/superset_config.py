@@ -137,7 +137,7 @@ OAUTH_PROVIDERS = [
             "client_secret": f"{SP_CLIENT_SECRET}",
             "api_base_url": "https://graph.microsoftonline.com/",
             "client_kwargs": {
-                "scope": "api://1dd17660-245d-4ce9-87f6-9d6dde616e99/impersonate_user",
+                "scope": f"api://{SP_CLIENT_ID}/impersonate_user",
                 "resource": f"{SP_CLIENT_ID}",
                 # Optionally enforce signature JWT verification
                 "verify_signature": False
