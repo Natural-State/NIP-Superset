@@ -187,6 +187,10 @@ SQLALCHEMY_DATABASE_URI = (
 # SQLALCHEMY_DATABASE_URI = 'mysql://myapp@localhost/myapp'
 # SQLALCHEMY_DATABASE_URI = 'postgresql://root:password@localhost/myapp'
 
+##########################TO MY SQLITE DATABASE#########################
+SQLALCHEMY_DATABASE_URI = 'sqlite:///home/sammigachuhi/github4/coding/sqlite_database/database/csv_data.db?check_same_thread=false'
+
+
 # In order to hook up a custom password store for all SQLALCHEMY connections
 # implement a function that takes a single argument of type 'sqla.engine.url',
 # returns a password and set SQLALCHEMY_CUSTOM_PASSWORD_STORE.
@@ -1500,7 +1504,7 @@ STATIC_ASSETS_PREFIX = ""
 
 # Some sqlalchemy connection strings can open Superset to security risks.
 # Typically these should not be allowed.
-PREVENT_UNSAFE_DB_CONNECTIONS = True
+PREVENT_UNSAFE_DB_CONNECTIONS = False # Revert to True
 
 # If true all default urls on datasets will be handled as relative URLs by the frontend
 PREVENT_UNSAFE_DEFAULT_URLS_ON_DATASET = True
