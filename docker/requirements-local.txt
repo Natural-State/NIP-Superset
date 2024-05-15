@@ -1,1 +1,2 @@
 Authlib==0.15.5
+sqlalchemy-databricks>=0.2.0
