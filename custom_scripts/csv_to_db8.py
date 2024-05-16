@@ -81,3 +81,15 @@ def create_database(csv_folder, database_path, database_name):
 create_database(csv_folder="/home/sammigachuhi/github4/coding/sqlite_database/csv_files",
                 database_path="/home/sammigachuhi/github4/coding/sqlite_database/database",
                 database_name="csv_data6") 
+
+# # Print one of the tables to check if the function is working
+# from sqlalchemy import create_engine
+# from sqlalchemy import inspect
+# import pandas as pd
+# cnx = create_engine("sqlite:////home/sammigachuhi/github4/coding/sqlite_database/database/csv_data6.db").connect() # Replace with path to your database, add sqlite://// to path name
+# mock_sensor_operation_table = pd.read_sql_table(
+#     table_name="mock_sensor_operation_table",
+#     con=cnx
+# )
+
+# print(mock_sensor_operation_table)
