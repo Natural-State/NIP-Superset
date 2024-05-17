@@ -112,3 +112,9 @@ messages.mo
 docker/requirements-local.txt
 
 cache/
+
+# Ignore 
+/venv
+/setup_sam
+.env
+*.env
