@@ -11,9 +11,12 @@ def create_database(csv_folder, database_path, database_name):
     inside that folder path and merges them into a single sqlite database
 
     Parameters:
-    csv_folder: the path to the folder containing your csv files
-    database_path: the path you would like to save your database into
-    database_name: the name of your database eg database.db 
+    --------------------------------
+    `csv_folder`: the path to the folder containing your csv files. If using mac, add an extra slash before your
+    path to the folder containing the csv files. eg '/absolute/path/to/database". For windows users, no need to insert the extra slash.
+    See this [reference](https://docs.sqlalchemy.org/en/20/core/engines.html)
+    `database_path`: the path you would like to save your database into
+    `database_name`: the name of your database eg database.db 
     """
 
     # Import the requisite packages
@@ -47,8 +50,8 @@ def create_database(csv_folder, database_path, database_name):
     # by the database_name parameter above
     for i in files:
         # Lets first print the paths to each csv
-        print("\n--")
-        print(i)
+        # print("\n--")
+        # print(i)
 
         # Replace --- https://favtutor.com/blogs/replace-multiple-characters-in-string-python
 
@@ -62,8 +65,8 @@ def create_database(csv_folder, database_path, database_name):
         new_df = pd.read_csv(i)
 
         # Print each dataframe
-        print(f"\--Filename path: {i}")
-        print(new_df.head(2))
+        # print(f"\--Filename path: {i}")
+        # print(new_df.head(2))
 
         table_name = new_name.replace(".csv", "")
 
@@ -73,23 +76,50 @@ def create_database(csv_folder, database_path, database_name):
     # Now print the tables in your database
     print("\nThese are the tables in your database")
     inspector = inspect(engine)
-    print(inspector.get_table_names())
+    # print(inspector.get_table_names())
 
-#     for t in inspector.get_table_names():
-#         print(t)
+    for t in inspector.get_table_names():
+        print(t)
 
-create_database(csv_folder="/home/sammigachuhi/github4/coding/sqlite_database/csv_files",
+create_database(
+    # csv_folder="/home/sammigachuhi/github4/coding/sqlite_database/csv_files",
+    csv_folder="/home/sammigachuhi/github4/csv_files",
                 database_path="/home/sammigachuhi/github4/coding/sqlite_database/database",
-                database_name="csv_data6") 
+                database_name="csv_data7") 
 
-# # Print one of the tables to check if the function is working
-# from sqlalchemy import create_engine
-# from sqlalchemy import inspect
-# import pandas as pd
-# cnx = create_engine("sqlite:////home/sammigachuhi/github4/coding/sqlite_database/database/csv_data6.db").connect() # Replace with path to your database, add sqlite://// to path name
-# mock_sensor_operation_table = pd.read_sql_table(
-#     table_name="mock_sensor_operation_table",
-#     con=cnx
-# )
 
-# print(mock_sensor_operation_table)
+## Create function to read a table from database
+print("\n---Function to read table from sqlite database-----")
+def read_table_from_db(table_name, database_path):
+    """
+    This function takes in a table name and path to database and returns the first five rows of the dataframe from within that database.
+
+    Parameters:
+    -------------------------------
+    `table_name`: This is the name of the table enclosed in quotes eg. "<table-name>"
+    `database_path`: This is the full path to the database. Do not insert relative paths but rather the full path. If using mac, add an extra slash before your
+    path to the folder to your database. eg '/absolute/path/to/database.db". For windows users, no need to insert the extra slash.
+    See this [reference](https://docs.sqlalchemy.org/en/20/core/engines.html)
+    """
+
+    # Import requisite packages
+    import pandas as pd
+    from sqlalchemy import create_engine
+    from sqlalchemy import inspect
+
+    # Append database path with sqlite:/// prefix
+    database_path = f"sqlite:///{database_path}"
+
+    # Create database engine
+    connection = create_engine(database_path)
+
+    # Read the table from sqlite database
+    table = pd.read_sql_table(
+        table_name=table_name,
+        con=connection
+    )
+
+    # Returns the first 5 rows of the table read from the sqlite database
+    print(table.head(5))
+
+read_table_from_db("mock_sensor_operation_table", "/home/sammigachuhi/github4/coding/sqlite_database/database/csv_data7.db")
