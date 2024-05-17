@@ -18,12 +18,14 @@ deploy_superset() {
     # SMTP_USER="$9"
     # SMTP_PASSWORD="$10"
     # SMTP_MAIL_FROM="$11"
-    SECRET_KEY="$13"
     # MAPBOX_API_KEY="$9"
     # SMTP_USER="$10"
     # SMTP_PASSWORD="$11"
     # SMTP_MAIL_FROM="$12"
-    # SECRET_KEY="$13"
+    SECRET_KEY="$13"
+    SP_CLIENT_SECRET="$14"
+    ARM_TENANT_ID="$15"
+    SP_CLIENT_ID="$16"
     
     echo "Namespace: $namespace"
     echo "Helm release: $helm_release"
@@ -46,6 +48,9 @@ deploy_superset() {
     --set "extraSecretEnv.SMTP_PASSWORD=$SMTP_PASSWORD" \
     --set "extraSecretEnv.SMTP_MAIL_FROM=$SMTP_MAIL_FROM" \
     --set "extraSecretEnv.SECRET_KEY=$SECRET_KEY" \
+    --set "extraSecretEnv.SP_CLIENT_SECRET=$SP_CLIENT_SECRET" \
+    --set "extraSecretEnv.ARM_TENANT_ID=$ARM_TENANT_ID" \
+    --set "extraSecretEnv.SP_CLIENT_ID=$SP_CLIENT_ID" \
     --set "supersetNode.connections.db_host=$DB_HOST" \
     --set "supersetNode.connections.db_user=$DB_USERNAME" \
     --set "supersetNode.connections.db_pass=$DB_PASSWORD" \
