@@ -72,7 +72,7 @@ helm upgrade \
     --debug
 ```
 
-7) In a new terminal: check the list of pods and get the pod name for the superset app.
+7) In a new terminal: check that pods are running
 
 ``` bash
 export $(grep -v '^#' ./helm/.env | xargs)
@@ -89,5 +89,5 @@ superset-release-worker-6f76ffcd46-9v8n7    1/1     Running   0          44s
 
 8) Tunnel superset service port into your localhost
 ``` bash
-kubectl service/superset-release 8088:8088 --namespace $NAMESPACE
+kubectl port-forward service/superset-release 8088:8088 --namespace $NAMESPACE
 ```
