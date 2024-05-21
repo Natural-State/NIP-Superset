@@ -82,10 +82,24 @@ SQLite is a lightweight relational database systems favoured for its light, simp
 
 ### 2.2 Convert csv files to sqlite database
 
+Attached to this folder is a python file called `cd_to_db_converter.py`. 
+
+It has two functions:
+
+1. `create_database`
+
+2. `read_table_from_db`
 
 
+1. `create_database`
 
+The purpose of this function is to convert your csv file(s) to a SQLite database. It only needs three parameters: 
 
+- path to your csv files, 
+- desired path to your database and,
+- desired name of the database  
+
+The function does the heavy lifting of conversion from csv to sqlite database for you.
 
 
 
