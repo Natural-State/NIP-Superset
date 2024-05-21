@@ -2,13 +2,15 @@
 
 ## Docker
 
+To add new packages that are not installed in docker image use the [requirements' file](docker/requirements-local.txt) to test the package and [your python code](docker/pythonpath_dev)
+
+**Deployment Process**
 1) Verify the image you want to use and modify its tag in docker compose file
 
 2) Rename docker/.env_local_example to .env_local and fill in the needed values
 
 3) docker compose up
 
-TODO
 
 ## Helm
 Requirements:
@@ -30,6 +32,8 @@ Notes:
 ``` bash
 kubectl delete all --all -n $NAMESPACE 
 ```
+
+* To add new packages that are not installed in docker image update the bootstrapScript in the  [bootstrapScript](helm/superset/values.override.local.yaml). For a stable behaivor, add this package to your base image.
 
 **Deployment Process**
 

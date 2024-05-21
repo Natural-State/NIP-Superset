@@ -26,6 +26,7 @@ deploy_superset() {
     SP_CLIENT_SECRET="$14"
     ARM_TENANT_ID="$15"
     SP_CLIENT_ID="$16"
+    ENV="$17"
     
     echo "Namespace: $namespace"
     echo "Helm release: $helm_release"
@@ -42,6 +43,7 @@ deploy_superset() {
     "../../helm/superset" \
     -f "../../helm/superset/values.yaml" \
     -f "../../helm/superset/values.override.yaml" \
+    -f "../../helm/superset/values.override.$ENV.yaml" \
     --set "extraSecretEnv.MAPBOX_API_KEY=$MAPBOX_API_KEY" \
     --set "extraEnv.BASEURL=\"https://$DOMAIN_NAME\"" \
     --set "extraSecretEnv.SMTP_USER=$SMTP_USER" \

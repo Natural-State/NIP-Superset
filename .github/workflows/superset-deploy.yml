@@ -21,7 +21,7 @@ env:
   namespace: "superset-namespace"
   helm_release: "superset-release"
   k8s_secret_name: "ingress-tls"
-
+  ENV: "${{ inputs.environment }}"
 
 jobs:
   deployment:
@@ -68,5 +68,5 @@ jobs:
       - name: Update helm chart and values
         run: |
           source ./deployment.sh
-          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{secrets.DOMAIN_NAME}} ${{env.k8s_secret_name}} ${{ steps.kvsecrets.outputs.DB_HOST }} ${{steps.kvsecrets.outputs.DB_USERNAME}} ${{steps.kvsecrets.outputs.DB_PASSWORD}} ${{secrets.MAPBOX_API_KEY}} ${{secrets.SMTP_USER}} ${{secrets.SMTP_PASSWORD}} ${{secrets.SMTP_MAIL_FROM}} ${{secrets.SECRET_KEY}} ${{secrets.SP_CLIENT_SECRET}} ${{secrets.ARM_TENANT_ID}} ${{secrets.SP_CLIENT_ID}}
+          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{secrets.DOMAIN_NAME}} ${{env.k8s_secret_name}} ${{ steps.kvsecrets.outputs.DB_HOST }} ${{steps.kvsecrets.outputs.DB_USERNAME}} ${{steps.kvsecrets.outputs.DB_PASSWORD}} ${{secrets.MAPBOX_API_KEY}} ${{secrets.SMTP_USER}} ${{secrets.SMTP_PASSWORD}} ${{secrets.SMTP_MAIL_FROM}} ${{secrets.SECRET_KEY}} ${{secrets.SP_CLIENT_SECRET}} ${{secrets.ARM_TENANT_ID}} ${{secrets.SP_CLIENT_ID}} ${{env.ENV}}
 

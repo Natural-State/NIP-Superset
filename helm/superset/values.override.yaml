@@ -83,7 +83,7 @@ configOverrides:
                 "client_secret": os.getenv("SP_CLIENT_SECRET"),
                 "api_base_url": f"https://login.microsoftonline.com/{os.getenv('ARM_TENANT_ID')}/oauth2/",
                 "client_kwargs": {
-                    "scope": f"api://{os.getenv('SP_CLIENT_ID')}/impersonate_user",
+                    "scope": "User.Read",
                     "resource": os.getenv("SP_CLIENT_ID"),
                     # Optionally enforce signature JWT verification
                     "verify_signature": False,
