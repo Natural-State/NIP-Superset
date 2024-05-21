@@ -14,10 +14,28 @@ TODO
 Requirements:
 * [Rancher Desktop](https://docs.rancherdesktop.io/getting-started/installation/)
 * [helm](https://helm.sh/docs/intro/install/)
+* Make sure you are using rancher-desktop with:
+``` bash
+kubectl config get-contexts
+```
+If it's not the case, then change it with
+``` bash
+kubectl config use-context rancher-desktop 
+```
+* Verify that you have a **stable** version for kubernates under Rancher -> Preferences -> Kubernetes -> Kubernetes version
+
+
+Notes:
+* If you are redeploying, the local namespace can be cleaned up by running the following command and there is no need to recreate the namespace
+``` bash
+kubectl delete all --all -n $NAMESPACE 
+```
+
+**Deployment Process**
 
 1) Verify the image you want to use and modify its information in values.override.yaml
 
-2) Rename helm/.env_example to helm/.env and fill in the needed values
+2) Copy helm/.env_example to helm/.env and fill in the needed values
 
 3) Export local variable environement 
 
@@ -30,7 +48,7 @@ export $(grep -v '^#' ./helm/.env | xargs)
 helm dependency update "./helm/superset"
 ```
 
-5) Create a namespace: 
+5) Create a namespace
 ``` bash
 kubectl create namespace $NAMESPACE
 ```
@@ -54,27 +72,22 @@ helm upgrade \
     --debug
 ```
 
-7) In a new terminal: check the list of pods and run Direct 
+7) In a new terminal: check the list of pods and get the pod name for the superset app.
+
 ``` bash
+export $(grep -v '^#' ./helm/.env | xargs)
 kubectl get pods -n $NAMESPACE
-```
-.....NIP-Superset % kubectl get pods -n $NAMESPACE
+
 NAME                                        READY   STATUS    RESTARTS   AGE
-superset-release-traefik-84bc8fc6c8-f4skd   1/1     Running   0          44s
-superset-release-postgresql-0               1/1     Running   0          43s
-superset-release-redis-master-0             1/1     Running   0          44s
-superset-release-6486799596-rt5xg           0/1     Running   0          44s
-superset-release-init-db-v2lzl              1/1     Running   0          42s
-superset-release-worker-6f76ffcd46-9v8n7    1/1     Running   0          44s
-
-8) Tunnel one pod's port into your localhost
-``` bash
-kubectl port-forward superset-release-6486799596-rt5xg 8088:8088 --namespace $NAMESPACE
-``` 
-
-Notes:
-* You can clean up the local namespace by running:
-``` bash
-kubectl delete all --all -n $NAMESPACE 
+superset-release-traefik-84bc8fc6c8-f4skd   1/1     Running   0          44s 
+superset-release-postgresql-0               1/1     Running   0          43s 
+superset-release-redis-master-0             1/1     Running   0          44s 
+superset-release-6486799596-rt5xg           0/1     Running   0          44s 
+superset-release-init-db-v2lzl              1/1     Running   0          42s 
+superset-release-worker-6f76ffcd46-9v8n7    1/1     Running   0          44s 
 ```
 
+8) Tunnel superset service port into your localhost
+``` bash
+kubectl service/superset-release 8088:8088 --namespace $NAMESPACE
+```
