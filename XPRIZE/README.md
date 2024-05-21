@@ -90,16 +90,127 @@ It has two functions:
 
 2. `read_table_from_db`
 
+To load and use these functions in any python file, import them as follows:
 
-1. `create_database`
+```
+from cd_to_db_converter import create_database
+from cd_to_db_converter import read_table_from_db
+```
+
+i. The **`create_database`** function
 
 The purpose of this function is to convert your csv file(s) to a SQLite database. It only needs three parameters: 
 
-- path to your csv files, 
-- desired path to your database and,
-- desired name of the database  
+- `csv_folder` - path to your csv files, 
+- `database_path` - desired path to your database and,
+- `database_name` - desired name of the database  
 
 The function does the heavy lifting of conversion from csv to sqlite database for you.
+
+For example, to convert csv file(s) from the path `/home/user/github4/csv_files` to a sqlite database called `xprize_database` in the path `/home/sammigachuhi/github4/coding/database` we would format the function as follows:
+
+```
+create_database(
+    csv_folder="/home/sammigachuhi/github4/csv_files",
+    database_path="/home/sammigachuhi/github4/coding/database",
+    database_name="xprize_database"
+    ) 
+```
+
+The database will take care of the extension name `.db` for you!
+
+**NB**: For Mac and Unix users (Ubuntu, Linux) you should ensure your path starts with `/` but this is not required for windows users.
+
+ii. The **`read_table_from_db`** function
+
+It is always important to check that the output of a function is behaving correctly. To check if your table(s) is correctly saved and readable from the database, use the `read_database` function.
+
+It takes two outputs only. 
+
+- `table_name` - this is the name of your csv without the `.csv` extension
+- `database_path` - this the full path to where your database is located. 
+
+Here is an example: 
+
+```
+read_table_from_db("mock_sensor_operation_table", "/home/sammigachuhi/github4/coding/database/xprize_database.db")
+```
+
+**NB**: For Mac and Unix users (Ubuntu, Linux) you should ensure your path starts with `/` but this is not required for windows users. Windows users can just use `C:/<path>`.
+
+**NB**: The python file `test_cd_to_db.py` has been provided as a playground to test these two functions. 
+
+
+### 2.3 Add the sqlite database to superset
+
+The good thing that is that reading of sqlite database is supported by Superset by default. However, in order to read it, a few changes must be made.
+
+** Only for Investigation**
+
+Inside the repository you cloned from Part 1.3 above, go to the  `config.py` file inside the `superset` folder. 
+
+Ensure line 19 is changed to False, as follows:
+
+```
+PREVENT_UNSAFE_DB_CONNECTIONS = False
+```
+
+Otherwise the above should have been taken care of for you. 
+
+To cancel a running container, type `Ctrl + C`. Then type `docker compose up` to build and run the container with the above new configurations.
+
+Go to this login page `http://localhost:8088/` in a private browser.
+
+Login using your provided azure credentials. 
+
+A Superset home page should appear as follows: 
+
+![Superset Homepage](superset.png)
+
+Go to **Settings>Database Connections>+ Database**.
+
+Choose SQLite from *Select a database to connect* options.
+
+In the Basic tab, insert the SQLALCHEMY URI space with the path to your sqlite database but there is a **caveat**. You will append the world `sqlite` before the path to tell Superset that this is a sqlite database it is reading!
+
+```
+sqlite:///C:\\Users\\sammi\\Downloads\\csv_data7.db?check_same_thread=false
+```
+
+Click `Test Connection`. If everything is okay, a "... looks good" message should appear.
+
+
+## 3. Adding CSVs to the Database in Superset
+
+### 3.1 Manual upload of csvs to SQLite Database in Superset
+
+For some reason, superset isn't reading uploaded sqlite databases. Luckily, there is a workaround. 
+
+Under the **Advanced Options, click the `Allow file uploads to database` options. 
+
+Click Finish. 
+
+Go to **Upload files to database>Upload csv**. 
+
+An interface should appear as follows:
+
+![Add files](superset_add_files.png)
+
+Browse to the csvs you want to upload. 
+
+The table name should be the name of the csv without the `.csv` extension. For example, if the csv is *mock_sensor_operations.csv* the table name will be `mock_sensor_operations`. 
+
+Click save.
+
+The first table takes a while but subsequent ones are faster.
+
+Once done, go back to the **Settings>Database Connections>+ Database**, click the **Edit** button next to the database you just uploaded. 
+
+Go to the **Advanced** menu.
+
+Under the **Security** tab, uncheck the *Allow file uploads to database*. This is so as to ensure no other tables are added to the database once you have uploaded all the csvs. 
+
+
 
 
 

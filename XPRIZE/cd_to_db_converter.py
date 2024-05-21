@@ -40,7 +40,7 @@ def create_database(csv_folder, database_path, database_name):
     # Create an engine from the path to the database concatenated above
     # First get the path to the csv files
     csv_path = csv_folder + "/"
-    print(f"---csv_path:  {csv_path}------------")
+    # print(f"---csv_path:  {csv_path}------------")
 
     # Store the path to the csv files in a variable
     files = glob.glob(csv_folder + "/*.csv")
@@ -50,8 +50,8 @@ def create_database(csv_folder, database_path, database_name):
     # by the database_name parameter above
     for i in files:
         # Lets first print the paths to each csv
-        print("\n--")
-        print(i)
+        # print("\n--")
+        # print(i)
 
         # Replace --- https://favtutor.com/blogs/replace-multiple-characters-in-string-python
 
@@ -65,8 +65,8 @@ def create_database(csv_folder, database_path, database_name):
         new_df = pd.read_csv(i)
 
         # Print each dataframe
-        print(f"\--Filename path: {i}")
-        print(new_df.head(2))
+        # print(f"\--Filename path: {i}")
+        # print(new_df.head(2))
 
         table_name = new_name.replace(".csv", "")
 
