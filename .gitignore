@@ -112,3 +112,7 @@ messages.mo
 !docker/requirements-local.txt
 
 cache/
+
+
+# Ignore 
+/setup_sam
