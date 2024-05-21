@@ -165,7 +165,7 @@ Login using your provided azure credentials.
 
 A Superset home page should appear as follows: 
 
-![Superset Homepage](superset.png)
+![Superset Homepage](./images/superset.png)
 
 Go to **Settings>Database Connections>+ Database**.
 
@@ -194,7 +194,7 @@ Go to **Upload files to database>Upload csv**.
 
 An interface should appear as follows:
 
-![Add files](superset_add_files.png)
+![Add files](./images/superset_add_files.png)
 
 Browse to the csvs you want to upload. 
 
