@@ -1423,12 +1423,13 @@ TALISMAN_CONFIG = {
     "content_security_policy": {
         "base-uri": ["'self'"],
         "default-src": ["'self'"],
-        "img-src": ["'self'", "blob:", "data:", "https://i.ibb.co", "https://images.unsplash.com"],
+        "img-src": ["'self'", "blob:", "data:", "https://i.ibb.co", "https://images.unsplash.com" ,"https://pexels.com"],
         "worker-src": ["'self'", "blob:"],
         "connect-src": [
             "'self'",
             "https://api.mapbox.com",
             "https://events.mapbox.com",
+            "https://nsiitechdevtestapi.azurewebsites.net",
         ],
         "object-src": "'none'",
         "style-src": [
@@ -1452,6 +1453,7 @@ TALISMAN_DEV_CONFIG = {
             "'self'",
             "https://api.mapbox.com",
             "https://events.mapbox.com",
+            "https://nsiitechdevtestapi.azurewebsites.net",
         ],
         "object-src": "'none'",
         "style-src": [
