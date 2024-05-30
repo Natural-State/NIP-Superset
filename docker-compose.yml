@@ -15,8 +15,7 @@
 # limitations under the License.
 #
 # x-superset-image: &superset-image apachesuperset.docker.scarf.sh/apache/superset:${TAG:-latest-dev}
-#x-superset-image: &superset-image naturalstate/superset:3.1.1-dev
-x-superset-image: &superset-image naturalstate/superset:dev
+x-superset-image: &superset-image naturalstate/superset:3.1.1-dev
 x-superset-user: &superset-user root
 x-superset-depends-on: &superset-depends-on
   - db
@@ -51,11 +50,7 @@ services:
       - redis:/data
 
   db:
-    env_file:
-      - path: docker/.env # default
-        required: true
-      - path: docker/.env_local # optional override
-        required: false
+    env_file: docker/.env
     image: postgres:15
     container_name: superset_db
     restart: unless-stopped
@@ -66,11 +61,7 @@ services:
       - ./docker/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   superset:
-    env_file:
-      - path: docker/.env # default
-        required: true
-      - path: docker/.env_local # optional override
-        required: false
+    env_file: docker/.env
     image: *superset-image
     container_name: superset_app
     command: ["/app/docker/docker-bootstrap.sh", "app"]
@@ -119,11 +110,7 @@ services:
     image: *superset-image
     container_name: superset_init
     command: ["/app/docker/docker-init.sh"]
-    env_file:
-      - path: docker/.env # default
-        required: true
-      - path: docker/.env_local # optional override
-        required: false
+    env_file: docker/.env
     depends_on: *superset-depends-on
     user: *superset-user
     volumes: *superset-volumes
@@ -136,11 +123,7 @@ services:
     image: node:16
     container_name: superset_node
     command: ["/app/docker/docker-frontend.sh"]
-    env_file:
-      - path: docker/.env # default
-        required: true
-      - path: docker/.env_local # optional override
-        required: false
+    env_file: docker/.env
     depends_on: *superset-depends-on
     volumes: *superset-volumes
 
@@ -148,11 +131,7 @@ services:
     image: *superset-image
     container_name: superset_worker
     command: ["/app/docker/docker-bootstrap.sh", "worker"]
-    env_file:
-      - path: docker/.env # default
-        required: true
-      - path: docker/.env_local # optional override
-        required: false
+    env_file: docker/.env
     restart: unless-stopped
     depends_on: *superset-depends-on
     user: *superset-user
@@ -169,11 +148,7 @@ services:
     image: *superset-image
     container_name: superset_worker_beat
     command: ["/app/docker/docker-bootstrap.sh", "beat"]
-    env_file:
-      - path: docker/.env # default
-        required: true
-      - path: docker/.env_local # optional override
-        required: false
+    env_file: docker/.env
     restart: unless-stopped
     depends_on: *superset-depends-on
     user: *superset-user
@@ -185,11 +160,7 @@ services:
     image: *superset-image
     container_name: superset_tests_worker
     command: ["/app/docker/docker-bootstrap.sh", "worker"]
-    env_file:
-      - path: docker/.env # default
-        required: true
-      - path: docker/.env_local # optional override
-        required: false
+    env_file: docker/.env
     environment:
       DATABASE_HOST: localhost
       DATABASE_DB: test
