@@ -50,4 +50,4 @@ source ./secrets.sh -n $namespace -s $k8s_secret_name --tls-crt $TLS_CRT --tls-k
 
 echo "Namespace: $namespace"
 echo "Helm release: $helm_release"
-deploy_superset $namespace $helm_release $DOMAIN_NAME $k8s_secret_name $DB_HOST $DB_USERNAME $DB_PASSWORD $MAPBOX_API_KEY $SMTP_USER $SMTP_PASSWORD $SMTP_MAIL_FROM $SECRET_KEY
+deploy_superset $namespace $helm_release $DOMAIN_NAME $k8s_secret_name $DB_HOST $DB_USERNAME $DB_PASSWORD $MAPBOX_API_KEY $SMTP_USER $SMTP_PASSWORD $SMTP_MAIL_FROM $SECRET_KEY $SP_CLIENT_SECRET $ARM_TENANT_ID $SP_CLIENT_ID $ENV
