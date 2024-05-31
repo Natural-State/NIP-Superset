@@ -28,6 +28,7 @@ deploy_superset() {
     echo "Helm release: $helm_release"
     echo "Domain name: $DOMAIN_NAME"
     echo "TLS Secret: $TLS_SECRET_NAME"
+    
     # Helm dependency update
     helm dependency update "../../helm/superset"
     

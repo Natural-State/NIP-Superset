@@ -23,5 +23,5 @@ postgresql:
 
 image:
   repository: naturalstate/superset
-  tag: 3.1.1-dev
+  tag: stg-latest
   pullPolicy: Always
