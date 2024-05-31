@@ -67,15 +67,7 @@ echo $TLS_CRT | base64 -d >> $crt_path
 echo $TLS_KEY | base64 -d >> $key_path
 if kubectl get secret "$k8s_secret_name" -n "$namespace" > /dev/null 2>&1; then
     echo "Secret $k8s_secret_name already exists."
-    #  # Update secret
-    #  kubectl create secret tls "$k8s_secret_name" \
-    #  --cert="$crt_path" \
-    #  --key="$key_path" \
-    #  --namespace="$namespace" \
-    #  --dry-run=client -o yaml | kubectl apply -f -
-    #  echo "Secret $k8s_secret_name updated."
 else
-    # create secret if not exists
     kubectl create secret tls "$k8s_secret_name" \
     --cert="$crt_path" \
     --key="$key_path" \
