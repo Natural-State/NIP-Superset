@@ -48,6 +48,7 @@ changelog.sh
 dist
 dump.rdb
 env
+.env_dev
 venv*
 env_py3
 envpy3
@@ -109,6 +110,6 @@ release.json
 # Translation binaries
 messages.mo
 
-docker/requirements-local.txt
+!docker/requirements-local.txt
 
 cache/

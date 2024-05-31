@@ -1,0 +1,38 @@
+#bootstrapScript: |
+#  #!/bin/bash
+#  if [ ! -f ~/bootstrap ]; then echo "Running Superset with uid {{ .Values.runAsUser }}" > ~/bootstrap; fi
+
+# Superset node configuration
+supersetNode:
+  strategy:
+    type: Recreate
+  connections:
+    # -- Change in case of bringing your own redis and then also set redis.enabled:false
+    redis_host: '{{ .Release.Name }}-redis-headless'
+    # redis_password: superset
+    redis_port: "6379"
+    # You need to change below configuration incase bringing own PostgresSQL instance and also set postgresql.enabled:false
+    db_host: '{{ .Release.Name }}-postgresql'
+    db_port: "5432"
+    db_user: superset
+    db_pass: superset
+    db_name: superset
+
+postgresql:
+  ##
+  ## Use the PostgreSQL chart dependency.
+  ## Set to false if bringing your own PostgreSQL.
+  enabled: true
+
+image:
+  repository: naturalstate/superset
+  tag: dev-test
+  pullPolicy: Always
+
+ingress:
+  enabled: false
+
+# Superset beat configuration (to trigger scheduled jobs like reports)
+supersetCeleryBeat:
+  # -- This is only required if you intend to use alerts and reports
+  enabled: false
