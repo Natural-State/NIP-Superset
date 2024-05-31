@@ -63,10 +63,30 @@ jobs:
 
       - name: Create namespace and secret
         run: |
-          source ./secrets.sh -n ${{env.namespace}} -s ${{env.k8s_secret_name}} --tls-crt ${{env.TLS_CRT}} --tls-key ${{env.TLS_KEY}}
+          source ./secrets.sh \
+            -n ${{env.namespace}} \
+            -s ${{env.k8s_secret_name}} \
+            --tls-crt ${{env.TLS_CRT}} \
+            --tls-key ${{env.TLS_KEY}}
 
       - name: Update helm chart and values
         run: |
           source ./deployment.sh
-          deploy_superset ${{env.namespace}} ${{env.helm_release}} ${{secrets.DOMAIN_NAME}} ${{env.k8s_secret_name}} ${{ steps.kvsecrets.outputs.DB_HOST }} ${{steps.kvsecrets.outputs.DB_USERNAME}} ${{steps.kvsecrets.outputs.DB_PASSWORD}} ${{secrets.MAPBOX_API_KEY}} ${{secrets.SMTP_USER}} ${{secrets.SMTP_PASSWORD}} ${{secrets.SMTP_MAIL_FROM}} ${{steps.kvsecrets.outputs.SECRET_KEY}} ${{secrets.SP_CLIENT_SECRET}} ${{secrets.ARM_TENANT_ID}} ${{secrets.SP_CLIENT_ID}} ${{env.ENV}}
+          deploy_superset \
+            ${{env.namespace}} \
+            ${{env.helm_release}} \
+            ${{secrets.DOMAIN_NAME}} \
+            ${{env.k8s_secret_name}} \
+            ${{steps.kvsecrets.outputs.DB_HOST}} \
+            ${{steps.kvsecrets.outputs.DB_USERNAME}} \
+            ${{steps.kvsecrets.outputs.DB_PASSWORD}} \
+            ${{secrets.MAPBOX_API_KEY}} \
+            ${{secrets.SMTP_USER}} \
+            ${{secrets.SMTP_PASSWORD}} \
+            ${{secrets.SMTP_MAIL_FROM}} \
+            ${{steps.kvsecrets.outputs.SECRET_KEY}} \
+            ${{secrets.SP_CLIENT_SECRET}} \
+            ${{secrets.ARM_TENANT_ID}} \
+            ${{secrets.SP_CLIENT_ID}} \
+            ${{env.ENV}}
 

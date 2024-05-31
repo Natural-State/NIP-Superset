@@ -7,28 +7,28 @@
 
 # Function to deploy Superset
 deploy_superset() {
-    NAMESPACE="$0"
-    HELM_RELEASE="$1"
-    DOMAIN_NAME="$2"
-    TLS_SECRET_NAME="$3"
-    DB_HOST="$4"
-    DB_USERNAME="$5"
-    DB_PASSWORD="$6"
-    MAPBOX_API_KEY="$7"
-    SMTP_USER="$8"
-    SMTP_PASSWORD="$9"
-    SMTP_MAIL_FROM="$10"
-    SECRET_KEY="$11"
-    SP_CLIENT_SECRET="$12"
-    ARM_TENANT_ID="$13"
-    SP_CLIENT_ID="$14"
-    ENV="$15"
+    NAMESPACE="$1"
+    HELM_RELEASE="$2"
+    DOMAIN_NAME="$3"
+    TLS_SECRET_NAME="$4"
+    DB_HOST="$5"
+    DB_USERNAME="$6"
+    DB_PASSWORD="$7"
+    MAPBOX_API_KEY="$8"
+    SMTP_USER="$9"
+    SMTP_PASSWORD="$10"
+    SMTP_MAIL_FROM="$11"
+    SECRET_KEY="$12"
+    SP_CLIENT_SECRET="$13"
+    ARM_TENANT_ID="$14"
+    SP_CLIENT_ID="$15"
+    ENV="$16"
 
     echo "Namespace: $namespace"
     echo "Helm release: $helm_release"
     echo "Domain name: $DOMAIN_NAME"
     echo "TLS Secret: $TLS_SECRET_NAME"
-    
+
     # Helm dependency update
     helm dependency update "../../helm/superset"
     
@@ -40,7 +40,7 @@ deploy_superset() {
     "../../helm/superset" \
     -f "../../helm/superset/values.yaml" \
     -f "../../helm/superset/values.override.yaml" \
-    -f "../../helm/superset/values.override.$ENV.yaml" \
+    -f "../../helm/superset/values.override.dev.yaml" \
     --set "extraSecretEnv.MAPBOX_API_KEY=$MAPBOX_API_KEY" \
     --set "extraEnv.BASEURL=\"https://$DOMAIN_NAME\"" \
     --set "extraSecretEnv.SMTP_USER=$SMTP_USER" \
