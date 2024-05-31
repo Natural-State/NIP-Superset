@@ -40,7 +40,7 @@ deploy_superset() {
     "../../helm/superset" \
     -f "../../helm/superset/values.yaml" \
     -f "../../helm/superset/values.override.yaml" \
-    -f "../../helm/superset/values.override.$ENV.yaml" \
+    -f "../../helm/superset/values.override.dev.yaml" \
     --set "extraSecretEnv.MAPBOX_API_KEY=$MAPBOX_API_KEY" \
     --set "extraEnv.BASEURL=\"https://$DOMAIN_NAME\"" \
     --set "extraSecretEnv.SMTP_USER=$SMTP_USER" \
