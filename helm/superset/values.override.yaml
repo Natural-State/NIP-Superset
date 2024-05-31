@@ -46,6 +46,79 @@ configOverrides:
     FEATURE_FLAGS = {
         "DYNAMIC_PLUGINS": True
     }
+  enable_oauth: |
+    from flask_appbuilder.security.manager import AUTH_OAUTH
+    # Set the authentication type to OAuth
+    AUTH_TYPE = AUTH_OAUTH
+
+    # registration configs
+    AUTH_USER_REGISTRATION = True  # allow users who are not already in the FAB DB
+    AUTH_USER_REGISTRATION_ROLE = "Admin"  # this role will be given in addition to any AUTH_ROLES_MAPPING
+
+    # Map Authlib roles to superset roles
+    AUTH_ROLE_ADMIN = 'Admin'
+    AUTH_ROLE_PUBLIC = 'Public'
+
+    #AUTH_ROLES_SYNC_AT_LOGIN = True
+
+    #PUBLIC_ROLE_LIKE_GAMMA= True
+    GUEST_ROLE_NAME = 'GAMMA'
+    GUEST_TOKEN_JWT_ALGO = "RS256"
+    GUEST_TOKEN_JWT_AUDIENCE = f"api://{os.getenv('SP_CLIENT_ID')}"
+
+    # the list of providers which the user can choose from
+    OAUTH_PROVIDERS = [
+        {
+            "name": "azure",
+            "icon": "fa-windows",
+            "token_key": "access_token",
+            "remote_app": {
+                "client_id": os.getenv("SP_CLIENT_ID"),
+                "client_secret": os.getenv("SP_CLIENT_SECRET"),
+                "api_base_url": f"https://login.microsoftonline.com/{os.getenv('ARM_TENANT_ID')}/oauth2/",
+                "client_kwargs": {
+                    "scope": "User.Read",
+                    "resource": os.getenv("SP_CLIENT_ID"),
+                    # Optionally enforce signature JWT verification
+                    "verify_signature": False,
+                },
+                'access_token_method':'POST',    # HTTP Method to call access_token_url
+                'access_token_headers':{    # Additional headers for calls to access_token_url
+                    'Authorization': 'Basic Base64EncodedClientIdAndSecret'
+                },
+                "request_token_url": None,
+                "access_token_url": f"https://login.microsoftonline.com/{os.getenv('ARM_TENANT_ID')}/oauth2/token",
+                "authorize_url": f"https://login.microsoftonline.com/{os.getenv('ARM_TENANT_ID')}/oauth2/authorize",
+                "jwks_uri": f"https://login.microsoftonline.com/common/discovery/v2.0/keys",
+            },
+        }
+    ]
+
+    from superset.security import SupersetSecurityManager
+
+    class CustomAadSecurityManager(SupersetSecurityManager):
+        #@appbuilder.sm.oauth_user_info_getter
+        def oauth_user_info(
+            sm: SupersetSecurityManager,
+            provider: str,
+            response=None,
+        ) : #-> Dict[str, Any]:
+            if provider == "azure":
+                me = sm._decode_and_validate_azure_jwt(response["id_token"])
+                name = (me.get("name", "notFound notFound")).split(" ")
+                return {
+                    # To keep backward compatibility with previous versions
+                    # of FAB, we use upn if available, otherwise we use email
+                    "email": me["upn"] if "upn" in me else me["email"],
+                    "name": name,
+                    "first_name": name[0],
+                    "last_name":" ".join(name[1:]),
+                    "username": me["oid"],
+                    "role_keys": me.get("roles", []),
+                }
+            return {}
+
+    CUSTOM_SECURITY_MANAGER = CustomAadSecurityManager
   secret: |
     PREVIOUS_SECRET_KEY = "YOUR_OWN_RANDOM_GENERATED_SECRET_KEY"
     SECRET_KEY = os.getenv("SECRET_KEY")
@@ -167,7 +240,7 @@ image:
   repository: naturalstate/superset
   # tag: 3.1.1
   # tag: 3.1.1-dev
-  tag: dev
+  tag: dev-test
   # latest is lean
   # tag: latest
   pullPolicy: Always

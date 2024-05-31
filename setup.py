@@ -134,6 +134,7 @@ setup(
         "wtforms>=2.3.3, <4",
         "wtforms-json",
         "xlsxwriter>=3.0.7, <3.1",
+        "Authlib==0.15.5",
     ],
     extras_require={
         "athena": ["pyathena[pandas]>=2, <3"],
