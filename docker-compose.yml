@@ -84,7 +84,7 @@ services:
     volumes: *superset-volumes
     environment:
       CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
-      SQLALCHEMY_DATABASE_URI: "sqlite:////home\\sammigachuhi\\github4\\coding\\sqlite_database\\database\\csv_data7.db"
+      # SQLALCHEMY_DATABASE_URI: "sqlite:////home\\sammigachuhi\\github4\\coding\\sqlite_database\\database\\csv_data7.db"
 
   # superset-websocket:
   #   container_name: superset_websocket
