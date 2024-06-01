@@ -132,7 +132,10 @@ extraVolumeMounts: []
 # -- A dictionary of overrides to append at the end of superset_config.py - the name does not matter
 # WARNING: the order is not guaranteed
 # Files can be passed as helm --set-file configOverrides.my-override=my-file.py
-configOverrides: {}
+# configOverrides: {}
+configOverrides:
+  allow_sqlite_for_examples: |
+    PREVENT_UNSAFE_DB_CONNECTIONS = False
   # extend_timeout: |
   #    # Extend timeout to allow long running queries.
   #    SUPERSET_WEBSERVER_TIMEOUT = ...
@@ -704,7 +707,7 @@ init:
   jobAnnotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": "before-hook-creation"
-  loadExamples: false
+  loadExamples: false  # I changed this
   createAdmin: true
   adminUser:
     username: admin
