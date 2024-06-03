@@ -114,6 +114,9 @@ spec:
                 name: {{ tpl . $ | quote }}
             {{- end }}
           volumeMounts:
+            - name: secrets-store
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
             - name: superset-config
               mountPath: {{ .Values.configMountPath | quote }}
               readOnly: true
@@ -175,6 +178,12 @@ spec:
       imagePullSecrets: {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- end }}
       volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ $.Values.extraEnv.SECRETS_STORE_NAME }}
         - name: superset-config
           secret:
             secretName: {{ tpl .Values.configFromSecret . }}

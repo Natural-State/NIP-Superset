@@ -26,6 +26,19 @@ extraEnv:
   GUNICORN_TIMEOUT: 300
   APP_ICON: https://i.ibb.co/fChLX4G/Natural-State-Logo-Icon.png
   APP_NAME: "Natural Impact Portal"
+  # Key vault secrets
+  SECRETS_STORE_NAME: "superset-keyvault-secrets"
+  KEYVAULT_NAME: "ns-ii-tech-dev-superset"
+  KEYVAULT_TENANT_ID: "ad6b5bd3-4317-4894-956f-ab2201f89390"
+  MANAGED_IDENTITY_ID: "b495b6e3-8923-4c95-a725-f194f550c7ea"
+  KEYVAULT_OBJECTS: |
+    array:
+      - |
+        objectName: ArmTenantID
+        objectType: secret
+      - |
+        objectName: SpClientID
+        objectType: secret
 
 # -- Extra environment variables to pass as secrets
 extraSecretEnv: {}
