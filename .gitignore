@@ -49,6 +49,7 @@ dist
 dump.rdb
 env
 .env_dev
+.env_stg
 venv*
 env_py3
 envpy3

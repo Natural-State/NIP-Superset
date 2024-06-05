@@ -53,7 +53,7 @@ deploy_superset() {
     "../../helm/superset" \
     -f "../../helm/superset/values.yaml" \
     -f "../../helm/superset/values.override.yaml" \
-    -f "../../helm/superset/values.override.dev.yaml" \
+    -f "../../helm/superset/values.override.$ENV.yaml" \
     --set "extraSecretEnv.MAPBOX_API_KEY=$MAPBOX_API_KEY" \
     --set "extraEnv.BASEURL=\"https://$DOMAIN_NAME\"" \
     --set "extraSecretEnv.SMTP_USER=$SMTP_USER" \
@@ -69,5 +69,6 @@ deploy_superset() {
     --set "ingress.tls[0].secretName=$TLS_SECRET_NAME" \
     --set "ingress.tls[0].hosts[0]=\"$DOMAIN_NAME\"" \
     --set "ingress.hosts[0]=\"$DOMAIN_NAME\"" \
-    --debug
+    --wait \
+    --timeout 300s
 }
