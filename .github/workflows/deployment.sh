@@ -43,7 +43,7 @@ deploy_superset() {
     echo "ENV: $ENV"
 
     # Helm dependency update
-    helm dependency update "../../helm/superset"
+    helm dependency update "../../helm/superset" --timeout 320s
     
     # Deploy superset with override
     helm upgrade \
