@@ -17,3 +17,20 @@ image:
   repository: naturalstate/superset
   tag: stg-latest
   pullPolicy: Always
+
+extraEnv:
+  SECRETS_STORE_NAME: "superset-keyvault-secrets"
+  KEYVAULT_NAME: "ns-ii-tech-stg-aks"
+  KEYVAULT_TENANT_ID: "6349bddb-01bf-47e0-a152-aaacc2b44281"
+  MANAGED_IDENTITY_ID: "5e551bb9-447c-4ee7-b2cc-5ed4f47992ab"
+  KEYVAULT_OBJECTS: |
+    array:
+      - |
+        objectName: ArmTenantID
+        objectType: secret
+      - |
+        objectName: SpClientID
+        objectType: secret
+      - |
+        objectName: SpClientSecret
+        objectType: secret
