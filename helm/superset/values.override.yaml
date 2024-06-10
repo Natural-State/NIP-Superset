@@ -113,8 +113,9 @@ configOverrides:
     CUSTOM_SECURITY_MANAGER = CustomAadSecurityManager
 
   secret: |
-    PREVIOUS_SECRET_KEY = "YOUR_OWN_RANDOM_GENERATED_SECRET_KEY"
+    # PREVIOUS_SECRET_KEY = "YOUR_OWN_RANDOM_GENERATED_SECRET_KEY"
     SECRET_KEY = os.getenv("SECRET_KEY")
+
   csp: |
     # Content Security Policy
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
@@ -229,6 +230,15 @@ configOverrides:
 
     # THUMBNAIL_SELENIUM_USER = 'admin'
     # ALERT_REPORTS_EXECUTE_AS = [ExecutorType.SELENIUM]
+
+# init:
+#   command:
+#     - /bin/sh
+#     - -c
+#     - |
+#       . {{ .Values.configMountPath }}/superset_bootstrap.sh
+#       superset re-encrypt-secrets
+#       . {{ .Values.configMountPath }}/superset_init.sh
 
 image:
   repository: naturalstate/superset
